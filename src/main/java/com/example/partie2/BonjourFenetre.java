@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -47,8 +48,15 @@ public class BonjourFenetre extends Application {
         ImageView iv = new ImageView();
         iv.setImage(image);
 
+
         // Intégration de l'image dans le bouton
         button.setGraphic( iv );
+
+        // Changement du texte après un clic sur le bouton
+        button.addEventHandler(MouseEvent.MOUSE_CLICKED, actionEvent -> {
+            helloLabel.setText( "Bonjour à toi, "+nameField.getText() );
+        });
+
 
 
 
