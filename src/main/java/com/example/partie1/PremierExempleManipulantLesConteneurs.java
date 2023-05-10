@@ -2,13 +2,11 @@ package com.example.partie1;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 
@@ -17,7 +15,7 @@ public class PremierExempleManipulantLesConteneurs extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Création du conteneur principal
-        VBox vbox = new VBox();
+        BorderPane root = new BorderPane();
         //Création de la bar de menu
         Menu menuFile = new Menu("file");
         MenuItem subMenuFileNew= new MenuItem("New");
@@ -36,14 +34,18 @@ public class PremierExempleManipulantLesConteneurs extends Application {
 
         MenuBar menuBar = new MenuBar(menuFile, menuEdit, menuHelp);
 
-        //Création de la milieu de page
+        root.setTop(menuBar);
 
-        VBox MidControl = new VBox();
-        VBox.setVgrow(MidControl, Priority.ALWAYS );
+        //Création de la milieu de page
+        HBox leftmidbox = new HBox() ;
+        Separator sep = new Separator(Orientation.VERTICAL);
+
+
 
 
         VBox MidLeftControl = new VBox();
-        MidLeftControl.setAlignment( Pos.BOTTOM_LEFT );
+        MidLeftControl.setAlignment( Pos.CENTER );
+        MidLeftControl.setSpacing(10);
 
         Label ButtonLabel = new Label("Boutons :");
         Button btn1 = new Button("Bouton 1");
@@ -51,8 +53,18 @@ public class PremierExempleManipulantLesConteneurs extends Application {
         Button btn3 = new Button("Bouton 3");
         MidLeftControl.getChildren().addAll(ButtonLabel,btn1,btn2,btn3);
 
+        leftmidbox.getChildren().addAll(
+                MidLeftControl,
+                sep
+        );
+
+        root.setLeft(leftmidbox);
+
         GridPane FormulaireMid = new GridPane();
-        FormulaireMid.setAlignment( Pos.BOTTOM_CENTER );
+        FormulaireMid.setAlignment( Pos.CENTER );
+        FormulaireMid.setHgap(10);
+        FormulaireMid.setVgap(10);
+        FormulaireMid.setPadding(new Insets(10));
         //Création des label
         Label nameLabel = new Label("Name :");
         FormulaireMid.add (nameLabel,0,0);
@@ -68,31 +80,38 @@ public class PremierExempleManipulantLesConteneurs extends Application {
         TextField mdpfield = new TextField();
         FormulaireMid.add (mdpfield,1,2);
 
-        MidControl.getChildren().addAll(
-                MidLeftControl,
-                FormulaireMid
-        );
+        //les boutons sous le formulaire
+        //mettre les boutons dans le hbox n'est pas une obligation
+        HBox boutonFormulaire = new HBox();
+        boutonFormulaire.setAlignment(Pos.CENTER);
+        boutonFormulaire.setSpacing(10);
+
+        Button boutonSubmit = new Button("Submit");
+        Button boutonCancel = new Button("Cancel");
+
+        boutonFormulaire.getChildren().addAll(boutonSubmit,boutonCancel);
+
+        FormulaireMid.add(boutonFormulaire, 0, 3, 2, 1);
+
+
+        root.setCenter(FormulaireMid);
 
 
 
-
-        HBox bottomControls = new HBox();
-        bottomControls.setAlignment(Pos.BOTTOM_CENTER );
+        VBox bottomControls = new VBox();
+        bottomControls.setAlignment(Pos.CENTER );
         Label basdepage = new Label("Ceci est un label de bas de page");
-        bottomControls.getChildren().add( basdepage);
+        Separator sepbot = new Separator(Orientation.HORIZONTAL);
+        bottomControls.getChildren().addAll( sepbot, basdepage);
+
+        root.setBottom(bottomControls);
 
 
-        // Ajout des contrôleurs au conteneur principal
-        vbox.getChildren().addAll(
-                menuBar,
-                MidControl,
-                bottomControls
-        );
 
-        Scene scene = new Scene(vbox );
 
-        VBox.setMargin( MidControl, new Insets(0.0d, 10.0d, 10.0d, 10.0d) );
-        VBox.setMargin( bottomControls, new Insets(10.0d) );
+
+        Scene scene = new Scene(root );
+
 
         primaryStage.setScene( scene );
         primaryStage.setWidth( 800 );
