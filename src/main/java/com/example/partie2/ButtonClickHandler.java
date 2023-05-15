@@ -10,6 +10,8 @@ public class ButtonClickHandler implements EventHandler<Event> {
     private Label helloLabel;
     private TextField nameField;
 
+    //pour l'exercice bonjour fenetre
+
     public ButtonClickHandler(Label helloLabel, TextField nameField) {
         this.helloLabel = helloLabel;
         this.nameField = nameField;
@@ -20,4 +22,7 @@ public class ButtonClickHandler implements EventHandler<Event> {
         // Utiliser le Label récupéré
         helloLabel.setText( "Bonjour à toi, "+nameField.getText() );
     }
+
+
+
 }

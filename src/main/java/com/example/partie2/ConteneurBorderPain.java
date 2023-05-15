@@ -1,40 +1,73 @@
 package com.example.partie2;
 
-port javafx.application.Application;
+
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
 
 public class ConteneurBorderPain extends Application {
 
+    private int nbVert = 0;
+    private int nbRouge = 0;
+    private int nbBleu = 0;
 
-    public void start(Stage primaryStage) throws Exception {
+    private Button vert;
+    private Button rouge;
+    private Button bleu;
 
-        BorderPane root = new BorderPane();
+    private BorderPane root;
+    private Label labelChoice;
+    private Pane colorPane;
+    private HBox btnBot;
 
-        HBox topBox = new HBox();
-        topBox.setAlignment(Pos.CENTER );
+    @Override
+    public void start(Stage primaryStage) {
 
-        Label labelChoice = new Label(" ");
+        root = new BorderPane();
 
-        topBox.getChildren().add(labelChoice);
-        root.setTop(topBox);
+        labelChoice = new Label();
+        labelChoice.setAlignment(Pos.CENTER);
 
-        HBox botBox = new HBox();
+        colorPane = new Pane();
+        colorPane.setPrefSize(400,200);
+
+        btnBot = new HBox();
+        btnBot.setAlignment(Pos.CENTER);
+        btnBot.setPadding(new Insets(10,5,10,5));
+
+        vert = new Button("Vert");
+        rouge = new Button("Rouge");
+        bleu = new Button("Bleu");
+        rouge.setOnAction(event -> {
+            labelChoice.setText("Rouge choisi " + ++nbRouge + " fois");
+            colorPane.setStyle("-fx-background-color: red");
+        });
+        vert.setOnAction(event -> {
+            labelChoice.setText("Vert choisi " + ++nbVert + " fois");
+            colorPane.setStyle("-fx-background-color: green");
+        });
+        bleu.setOnAction(event -> {
+            labelChoice.setText("Bleu choisi " + ++nbBleu + " fois");
+            colorPane.setStyle("-fx-background-color: blue");
+        });
+        btnBot.getChildren().addAll(vert, rouge, bleu);
+
+        root.setCenter(colorPane);
+        root.setTop(labelChoice);
+        root.setBottom(btnBot);
 
         Scene scene = new Scene(root);
 
-        primaryStage.setScene( scene );
-        primaryStage.setTitle("Hello application");
-        primaryStage.setWidth(400);
-        primaryStage.setHeight(400);
+        primaryStage.setScene(scene);
         primaryStage.show();
-
     }
-
 }
-
